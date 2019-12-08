@@ -132,16 +132,6 @@ void parseInputArgsForConnectParams(int argc, char **argv) {
 	}
 
 }
-	//int played = 0;
-	
-/*void *speak_thread(void *arg){
-	printf("4");
-	if (played == 0) {
-		printf("playing\n");
-		system("aplay /home/pi/Downloads/imperial_march.wav");
-		played = 1;
-	}
-}*/
 
 int main(int argc, char **argv) {
 	bool infinitePublishFlag = true;
@@ -245,10 +235,6 @@ int main(int argc, char **argv) {
 	int is_alarm = 0;
 	char led_scripts[54] = "sudo python3 /home/pi/Desktop/led_ring/led_ring_0.py &";
 	int curr_led = 0;
-	
-
-	//pthread_t speak_thread_id;
-	
 
 	while((NETWORK_ATTEMPTING_RECONNECT == rc || NETWORK_RECONNECTED == rc || SUCCESS == rc)
 		  && (publishCount > 0 || infinitePublishFlag)) {
