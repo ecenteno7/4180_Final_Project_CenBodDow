@@ -5,7 +5,7 @@ Brett Bodamer, Erik Centeno, Dallas Downing
 ## Overview
 The goal of this project is to merge components from two major products in order to design a more practical, consumer-oriented experience. Many Internet of Things devices can tend to be somewhat gimmicky, as all new technologies are, in order to show off the newest features that can be exploited to create the next revolution. From internet connected kitchen devices, to more practical devices such as an Amazon Echo, to industrial applications which are fueling the growth of the manufacturing industry, these IoT devices have a lot of potential to start to merge into holistic products with a lot of practical value.
 
-![Final Product](URL)
+![Final Product](https://github.com/ecenteno7/RPi3-IoT-Alarm-Clock-ECE4180/blob/master/images/final%20product.jpg)
 
 With the advent of smartphones, smart assistants, and smart watches, the alarm clock has seemingly faded into the technology graveyard. However, our group believed that alarm clocks still have the potential to make a resurgence built around practical features. What if your alarm clock acted like your mom when you were younger, forcing you to get out of bed and not leaving you alone until you were **_really_** awake? This smart alarm clock allows you to set an alarm along with a code the night before. The next morning, you have to remember the code that you entered the night before in order to turn the alarm off. Otherwise, the clock will increase the stimulus by turning up the volume and increasing the LED blinking intensity. This keeps the user on his/her toes and is built around the core functionality of actually making sure they start their day right. Additionally, the clock is paired with a high resolution touchscreen display that shows at-a-glance current weather and world news. The alarm consists of an LED ring stimulus and music, which are detailed later on this page.
 
@@ -31,7 +31,7 @@ The alarm clock is outfitted with a touch display which can be found [here](http
 ### JavaScript Controlled GUI
 The JavaScript GUI is one of the two fronts that the user interacts with. Mostly, this component exists to show the user at-a-glance information that other IoT devices may display, such as current time, weather, and a scrolling daily news feed. Additionally, this is what the user interacts with to turn the alarm off in the morning. 
 
-![GUI](URL)
+![GUI](https://github.com/ecenteno7/RPi3-IoT-Alarm-Clock-ECE4180/blob/master/images/gui.jpg)
 
 The JavaScript code is found in device-example.js, which connects to AWS IoT core and establishes a subscription on topic “sdkTest/sub” using our credentials. Also in this script, an Express (NodeJS module) server is set up which serves the browser an HTML page, index.html. The Express server also serves the client-side JavaScript in the HTML images from the /img directory.
 
@@ -45,7 +45,7 @@ The GUI can be launched by visiting localhost:3000 in the DuckDuckGo browser on 
 
 These files should have paths leading to them, if they are not in the same directory as the device-example.js file. The following logic diagram shows an example of communication when a user sets an alarm from the node-red UI from their phone. More detail is given later on how to properly execute our clock’s demo.
 
-![Alarm Set Logic](URL)
+![Alarm Set Logic](https://github.com/ecenteno7/RPi3-IoT-Alarm-Clock-ECE4180/blob/master/images/alarm%20on.jpg)
 
 As shown, the JavaScript code will trigger the number pad to turn on when a message is published to the topic “sdkTest/sub” indicating that the alarm is now on. The logic diagrams for when the alarm stimuli need to be increased/turned off are found in the next section.
 
@@ -54,8 +54,8 @@ Node-Red is a tool that is used to wire together JavaScript functions in order t
 
 To create the user interface, node-red-dashboard was installed into our node-red modules folder, and a “forms” node was added to our flow. This node has all of the inputs that the user must include in order to set the alarm. The output of this node goes into a function which formats the message into the readable string that the C script can read (2_DAY_MONTH_YEAR_HOUR_MINUTE_CODE). The “2” indicates that an alarm is being set, and the C script interprets this. This function node outputs the message to the MQTT publish node, which connects to our AWS IoT Core MQTT Broker and publishes the message to topic “sdkTest/sub.” This node needs all of the similar certificates and keys that the other scripts needed in order to properly connect to AWS. The flow that we used in node-red is shown, followed by the interface a user will see on their cell phone. The “node-red” command can be run from the Raspberry Pi’s terminal to start the server.  To connect to the user interface page, the user can simply connect to the Raspberry Pi’s IP address (on the same wireless network) at port 1880 at the ui directory (ie. 192.168.1.1/ui).
 
-![Node Red](URL)
-![Alarm Input](URL)
+![Node Red](https://github.com/ecenteno7/RPi3-IoT-Alarm-Clock-ECE4180/blob/master/images/node%20red.jpg)
+![Alarm Input](https://github.com/ecenteno7/RPi3-IoT-Alarm-Clock-ECE4180/blob/master/images/alarm%20input.jpg)
 
 ### Adafruit 3W Speaker Bonnet
 For the speakers for the alarm music, we used the [Adafruit I2S Stereo Speaker Bonnet](https://www.adafruit.com/product/3346). This “bonnet” board covers the GPIO pins on the Raspberry Pi. It controls two speakers using a I2S signal from the Pi.
@@ -68,7 +68,7 @@ The wiring for the alarm clock is largely simplified by the speaker bonnet. The 
 
 The NeoPixel can be controlled by a PWM signal, a PCM signal, or a SPI signal, which means it can only use GPIO pins 12 (PWM), 18 (PWM), 21 (PCM), or 10 (SPI). Since the speaker bonnet was already using 18 and 21, we ended up using GPIO12. Adafruit also recommends using a level shifter to bring the signal on pin 12 from 3.3V to 5V. However, since we were not using a long string of pixels, we did not find it necessary to use one.
 
-![Wiring](URL)
+![Pins](https://github.com/ecenteno7/RPi3-IoT-Alarm-Clock-ECE4180/blob/master/images/pi-pinout.png)
 
 ## Demo
 To setup the device you first need to do the following:
