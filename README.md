@@ -29,7 +29,7 @@ We chose to use the Raspberry Pi 3 Model B as the main controller of the alarm c
 The alarm clock is outfitted with a touch display which can be found [here](https://www.raspberrypi.org/products/raspberry-pi-touch-display/). This connects to the Raspberry Pi using a short ribbon cable in the Pi’s DSI Port. The display receives power from the Pi’s 5V Out and Ground GPIO connectors. The display is 800x480, but the Pi automatically adjusts its resolution and output for this.
 
 ### JavaScript Controlled GUI
-The JavaScript GUI is one of the two fronts that the user interacts with. Mostly, this component exists to show the user at-a-glance information that other IoT devices may display, such as current time, weather, and a scrolling daily news feed. Additionally, this is what the user interacts with to turn the alarm off in the morning. 
+The JavaScript GUI is one of the two fronts that the user interacts with. Mostly, this component exists to show the user at-a-glance information that other IoT devices may display, such as current time, weather, and a scrolling daily news feed. Additionally, this is where the user inputs their code whenever the keypad pops up at the time of the alarm. 
 
 ![GUI](https://github.com/ecenteno7/RPi3-IoT-Alarm-Clock-ECE4180/blob/master/images/gui.jpg)
 
