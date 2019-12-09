@@ -1,6 +1,7 @@
 # RPi3 IoT Alarm Clock
 ### ECE 4180 A
 Brett Bodamer, Erik Centeno, Dallas Downing
+
 Georgia Institute of Technology
 
 ## Overview
