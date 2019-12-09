@@ -1,6 +1,7 @@
 # RPi3 IoT Alarm Clock
 ### ECE 4180 A
 Brett Bodamer, Erik Centeno, Dallas Downing
+Georgia Institute of Technology
 
 ## Overview
 The goal of this project is to merge components from two major products in order to design a more practical, consumer-oriented experience. Many IoT devices can tend to be somewhat gimmicky, as all new technologies are, in order to show off the newest features that can be exploited to create the next revolution. From internet connected kitchen devices, to more practical devices such as an Amazon Echo, to industrial applications which are fueling the growth of the manufacturing industry, these IoT devices have a lot of potential to start to merge into holistic products with a lot of practical value.
