@@ -22,6 +22,9 @@ In our case, the layout is much simpler. The JavaScript GUI is served in an HTML
 ### Included Files
 Information and a detailed tutorial for AWS IoT Core setup can be found [here](https://aws.amazon.com/iot-core/). The GitHub repository in this project omits the entirety of the AWS provided directories, as to avoid publishing any private information to a public location. AWS requires a full account setup and includes various API keys and certificates inside of its directories, so only the main scripts that were edited are included in this repository (with sensitive information excluded). The files “device-example.js” and “subscribe-publish-sample.c” are included to show how the embedded device is setup and runs. If you would like to recreate this project, simply replace these files in the AWS provided sample project directories and include your own user-generated certificates and keys from your account.
 
+### Raspberry Pi 3
+We chose to use the Raspberry Pi 3 Model B as the main controller of the alarm clock due to its ease of use and support for our IO devices. Since the Pi has a built-in Wi-Fi chip and support for the touchscreen, we could focus on implementing features instead of trying to get many small devices working with each other. The Adafruit Speaker Bonnet also allows easy control of speakers directly from the GPIO pins. This alarm clock did not have any real-time response constraints, so we did not need a faster, dedicated microcontroller for any functionality.
+
 ### Raspberry Pi Foundation Touch Screen
 The alarm clock is outfitted with a touch display which can be found [here](https://www.raspberrypi.org/products/raspberry-pi-touch-display/). This connects to the Raspberry Pi using a short ribbon cable in the Pi’s DSI Port. The display receives power from the Pi’s 5V Out and Ground GPIO connectors. The display is 800x480, but the Pi automatically adjusts its resolution and output for this.
 
@@ -45,3 +48,43 @@ These files should have paths leading to them, if they are not in the same direc
 ![Alarm Set Logic](URL)
 
 As shown, the JavaScript code will trigger the number pad to turn on when a message is published to the topic “sdkTest/sub” indicating that the alarm is now on. The logic diagrams for when the alarm stimuli need to be increased/turned off are found in the next section.
+
+### Node-Red User Interface
+Node-Red is a tool that is used to wire together JavaScript functions in order to make more complicated applications. It is built off of Node.JS and has several pre-written blocks of code that make interfacing with one another very simple. Node-Red was chosen to implement the cell phone alarm setting functionality due to the ease of use of adding AWS connection and connection to the cell phone without any native scripts running on it.
+
+To create the user interface, node-red-dashboard was installed into our node-red modules folder, and a “forms” node was added to our flow. This node has all of the inputs that the user must include in order to set the alarm. The output of this node goes into a function which formats the message into the readable string that the C script can read (2_DAY_MONTH_YEAR_HOUR_MINUTE_CODE). The “2” indicates that an alarm is being set, and the C script interprets this. This function node outputs the message to the MQTT publish node, which connects to our AWS IoT Core MQTT Broker and publishes the message to topic “sdkTest/sub.” This node needs all of the similar certificates and keys that the other scripts needed in order to properly connect to AWS. The flow that we used in node-red is shown, followed by the interface a user will see on their cell phone. The “node-red” command can be run from the Raspberry Pi’s terminal to start the server.  To connect to the user interface page, the user can simply connect to the Raspberry Pi’s IP address (on the same wireless network) at port 1880 at the ui directory (ie. 192.168.1.1/ui).
+
+![Node Red](URL)
+![Alarm Input](URL)
+
+### Adafruit 3W Speaker Bonnet
+For the speakers for the alarm music, we used the [Adafruit I2S Stereo Speaker Bonnet](https://www.adafruit.com/product/3346). This “bonnet” board covers the GPIO pins on the Raspberry Pi. It controls two speakers using a I2S signal from the Pi.
+
+### Adafruit Neopixel LED Ring 
+We used an [Adafruit Neopixel LED Ring](https://www.adafruit.com/product/1586) with 24 RGB LEDs for the light on top of the alarm. We used the NeoPixel ring since each LED is individually addressable and let’s us control color and brightness. We used the [Adafruit CircuitPython Neopixel](https://circuitpython.readthedocs.io/projects/neopixel/en/latest/) library to control the ring with the Raspberry Pi. Unfortunately controlling NeoPixels with a Raspberry Pi is only possible with this Python library, so we created a Python script to connect and communicate with the NeoPixel ring. The script flashes the NeoPixels white at different frequencies or creates a spinning rainbow effect. More details about this can be found above (Demo/C Script). The code for the rainbow effect was adapted from the example code found [here](https://circuitpython.readthedocs.io/projects/neopixel/en/latest/examples.html).
+
+## Wiring
+The wiring for the alarm clock is largely simplified by the speaker bonnet. The bonnet connects directly to the Pi’s GPIO pins and has a connector for the speakers used. The speaker bonnet uses GPIO18, GPIO19, and GPIO21 for the audio signal, which means these pins cannot be used for other devices, like the NeoPixel. Both the NeoPixel and touchscreen both require a +5V input for power, which is easily done using the two 5V pins from the Pi. The ground wires for both devices can be connected to any ground pin. Running the Pi from wall power was enough to drive the speakers at full volume, the LEDs at full brightness, and the touchscreen at full brightness at the same time.
+
+The NeoPixel can be controlled by a PWM signal, a PCM signal, or a SPI signal, which means it can only use GPIO pins 12 (PWM), 18 (PWM), 21 (PCM), or 10 (SPI). Since the speaker bonnet was already using 18 and 21, we ended up using GPIO12. Adafruit also recommends using a level shifter to bring the signal on pin 12 from 3.3V to 5V. However, since we were not using a long string of pixels, we did not find it necessary to use one.
+
+![Wiring](URL)
+
+## Demo
+To setup the device you first need to do the following:
+* Power the device by plugging in the Raspberry Pi to the 5V external power supply
+* Navigate to the directory containing device-example.js and run the command:
+ `node device-example.js --host-name=HOSTNAME --private-key=PRIVKEY.private.key --client-certificate=CLIENTCERT.cert.pem --ca-   certificate=root-CA.crt --client-id=NodeJS --test-mode=1`
+
+* In a separate terminal, navigate to the directory containing subscribe-publish-sample.c and run the command:
+ `./subscribe-publish-sample`
+
+* In a third terminal, run `node-red` to start the node-red server
+* With another device, connect to the same WiFi network as the Raspberry Pi
+* Open a web browser and go type the following:
+ `<raspberry pi’s IP address>/ui`
+
+The demo includes a user inputting an alarm time and a corresponding 4-digit code on a cell phone. The alarm activates and starts playing the Star Wars theme. The sound gets louder and the LEDs get brighter after incorrect code inputs. The alarm, sound, and lights all turn off once the correct code is input into the GUI.
+
+[![IMAGE ALT TEXT HERE](URL)](https://youtu.be/2EGQX7V5hsM)
+
