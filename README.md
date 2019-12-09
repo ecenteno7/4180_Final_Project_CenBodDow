@@ -75,10 +75,8 @@ To setup the device you first need to do the following:
 * Power the device by plugging in the Raspberry Pi to the 5V external power supply
 * Navigate to the directory containing device-example.js and run the command:
  `node device-example.js --host-name=HOSTNAME --private-key=PRIVKEY.private.key --client-certificate=CLIENTCERT.cert.pem --ca-   certificate=root-CA.crt --client-id=NodeJS --test-mode=1`
-
 * In a separate terminal, navigate to the directory containing subscribe-publish-sample.c and run the command:
  `./subscribe-publish-sample`
-
 * In a third terminal, run `node-red` to start the node-red server
 * With another device, connect to the same WiFi network as the Raspberry Pi
 * Open a web browser and go type the following:
@@ -86,5 +84,4 @@ To setup the device you first need to do the following:
 
 The demo includes a user inputting an alarm time and a corresponding 4-digit code on a cell phone. The alarm activates and starts playing the Star Wars theme. The sound gets louder and the LEDs get brighter after incorrect code inputs. The alarm, sound, and lights all turn off once the correct code is input into the GUI.
 
-[![IMAGE ALT TEXT HERE](URL)](https://youtu.be/2EGQX7V5hsM)
-
+Demo link: https://youtu.be/2EGQX7V5hsM
