@@ -86,7 +86,7 @@ To setup the device you first need to do the following:
 * With another device, connect to the same WiFi network as the Raspberry Pi
 * Open a web browser on the other device and go type the following:
  `<raspberry pi’s IP address>:1880/ui`
-* Open a web browser on the Raspberry Pi and navigate to local host:3000 to display the GUI on the touchscreen
+* Open a web browser on the Raspberry Pi and navigate to localhost:3000 to display the GUI on the touchscreen
 
 The demo includes a user inputting an alarm time and a corresponding 4-digit code on a cell phone. The alarm activates and starts playing the Star Wars theme. The sound gets louder and the LEDs get brighter after incorrect code inputs. The alarm, sound, and lights all turn off once the correct code is input into the GUI.
 
